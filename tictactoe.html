@@ -1,0 +1,567 @@
+<!<!DOCTYPE html>
+<html>
+<title>TicTacToe</title>
+<style>
+	
+  .grid{
+    position:absolute;
+    margin-left:20%;
+    margin-top:5%;
+
+  }
+  .letters{
+    position:absolute
+  }
+  #blk1{
+    position:absolute;
+    margin-left:370px;
+    margin-top:80px;
+    width:140px;
+    height:120px;
+    background-color:white;
+  }
+  #blk2{
+    position:absolute;
+    margin-left:530px;
+    margin-top:80px;
+    width:200px;
+    height:120px;
+    background-color:white;
+  }
+  #blk3{
+    position:absolute;
+    margin-left:750px;
+    margin-top:80px;
+    width:140px;
+    height:120px;
+    background-color:white;
+  }
+  #blk4{
+    position:absolute;
+    margin-left:370px;
+    margin-top:210px;
+    width:140px;
+    height:130px;
+    background-color:white;
+  }
+  #blk5{
+    position:absolute;
+    margin-left:530px;
+    margin-top:210px;
+    width:200px;
+    height:130px;
+    background-color:white;
+  }
+  #blk6{
+    position:absolute;
+    margin-left:750px;
+    margin-top:210px;
+    width:140px;
+    height:130px;
+    background-color:white;
+  }
+  #blk7{
+    position:absolute;
+    margin-left:370px;
+    margin-top:355px;
+    width:140px;
+    height:130px;
+    background-color:white;
+  }
+  #blk8{
+    position:absolute;
+    margin-left:530px;
+    margin-top:355px;
+    width:200px;
+    height:130px;
+    background-color:white;
+  }
+  #blk9{
+    position:absolute;
+    margin-left:750px;
+    margin-top:355px;
+    width:140px;
+    height:130px;
+    background-color:white;
+  }
+  #tally{
+	background-color:white;
+	width:100px;
+	height:100px;
+	position:absolute;
+  }
+  #Comment{
+	position:absolute;
+	background-color:red;
+	width:520px;
+	height:100px;
+	margin-left:27%;
+	margin-top:40%;
+	text-align:center;
+	color:white;
+	font-size:50px;
+	
+  }
+</style>
+<body>
+<div class="play-area">
+    <img class='grid' src="grid.jpg" alt="" >
+    <div id="blk1"  onclick="select('blk1')"></div>
+    <div id="blk2"  onclick="select('blk2')"></div>
+    <div id="blk3"  onclick="select('blk3')"></div>
+
+    <div id="blk4"  onclick="select('blk4')"></div>
+    <div id="blk5"  onclick="select('blk5')"></div>
+    <div id="blk6"  onclick="select('blk6')"></div>
+
+    <div id="blk7"  onclick="select('blk7')"></div>
+    <div id="blk8"  onclick="select('blk8')"></div>
+    <div id="blk9"  onclick="select('blk9')"></div>
+	
+	<div id='tally'></div>
+</div>
+<div id="Comment">
+	
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+var x;
+var move = 0;
+
+// Loop to create 2D array using 1D array =======================================================>
+var grid = new Array(3); 
+for (var i = 0; i < grid.length; i++) { 
+    grid[i] = new Array(3); 
+} 
+var h = 1; 
+// Loop to initilize 2D array elements. 
+for (var i = 0; i < 3; i++) { 
+    for (var j = 0; j < 3; j++) { 
+        grid[i][j] = h++; 
+    } 
+}
+function disp(){ // Loop to display the elements of 2D array.  
+	var text = '';
+	for (var i = 0; i < 3; i++) { 
+		for (var j = 0; j < 3; j++)    { 
+			text+= grid[i][j].toString() + '     |';
+		} 
+    text += '<br>'; 
+	}  
+	document.getElementById('tally').innerHTML = text;
+}
+disp();//===========================================================================================>
+ 
+ 
+ 
+//Function to select the x by user
+function select(x){
+	var area = document.getElementById(x);
+    var index = x[3];	
+	for (var i = 0; i < 3; i++) { 
+		for (var j = 0; j < 3; j++) { 
+			if(index == grid[i][j]){
+				//console.log(grid[i][j]);
+				if(grid[i][j] == 'o'){
+					alert('Already Occupied By o!');
+				}else{
+					grid[i][j] = 100;
+					disp();
+					area.innerHTML = "<img src='x.jpg'></img>";
+				} 
+			}
+		} 
+	} 
+	play();
+}
+
+function random_o(){
+	var flag =1;
+	for(var i=0;i<3;i++){
+		for(var j=0;j<3;j++){
+			if(grid[i][j]!=100 && grid[i][j]!=500 ){
+			var index = 'blk';
+			index+=grid[i][j].toString();
+			console.log(index);
+			var area = document.getElementById(index);
+			grid[i][j] = 500;
+			disp();
+			area.innerHTML = "<img src='o.jpg'></img>";
+			 flag=0;
+				 
+			} 
+			if (flag==0){
+				break;
+			} 
+		}
+		if (flag==0){
+				break;
+		}	 
+	}
+}
+function defend_x(){
+	//horizontal 
+	row1 = grid[0][0] + grid[0][1] + grid[0][2];
+	row2 = grid[1][0] + grid[1][1] + grid[1][2];
+	row3 = grid[2][0] + grid[2][1] + grid[2][2];
+	
+	//vertical
+	col1 = grid[0][0] + grid[1][0] + grid[2][0];
+	col2 = grid[0][1] + grid[1][1] + grid[2][1];
+	col3 = grid[0][2] + grid[1][2] + grid[2][2];
+	
+	//diagonal
+	diag1 = grid[0][0] + grid[1][1] + grid[2][2];
+	diag2 = grid[0][2] + grid[1][1] + grid[2][0];
+	
+	if(row1==201 || row1==202 || row1==203){ //defend row1
+		for(var i=0;i<3;i++){
+			if(grid[0][i] != 100){
+				var index = 'blk';
+				index+=grid[0][i].toString();
+				var area = document.getElementById(index);
+				grid[0][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(row2==204 || row2==205 || row2==206){//defend row2
+		for(var i=0;i<3;i++){
+			if(grid[1][i] != 100){
+				var index = 'blk';
+				index+=grid[1][i].toString();
+				var area = document.getElementById(index);
+				grid[1][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(row3==207 || row3==208 || row3==209){ //defend row3
+		for(var i=0;i<3;i++){
+			if(grid[2][i] != 100){
+				var index = 'blk';
+				index+=grid[2][i].toString();
+				var area = document.getElementById(index);
+				grid[2][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(col1==201 || col1==204 || col1==207){ //defend col1
+		for(var i=0;i<3;i++){
+			if(grid[i][0] != 100){
+				var index = 'blk';
+				index+=grid[i][0].toString();
+				var area = document.getElementById(index);
+				grid[i][0] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(col2==202 || col2==205 || col2==208){ //defend col2
+		for(var i=0;i<3;i++){
+			if(grid[i][1] != 100){
+				var index = 'blk';
+				index+=grid[i][1].toString();
+				var area = document.getElementById(index);
+				grid[i][1] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(col3==203 || col3==206 || col3==209){ //defend col3
+		for(var i=0;i<3;i++){
+			if(grid[i][2] != 100){
+				var index = 'blk';
+				index+=grid[i][2].toString();
+				var area = document.getElementById(index);
+				grid[i][2] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(diag1==201 || diag1==205 || diag1==209){ //defend diag1
+		for(var i=0;i<3;i++){
+			if(grid[i][i] != 100){
+				var index = 'blk';
+				index+=grid[i][i].toString();
+				var area = document.getElementById(index);
+				grid[i][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+	}else if(diag2==203 || diag2==205 || diag2==207){ //defend diag2
+		var count =2;
+		for(var i=0;i<3;i++){
+			if(grid[i][count] != 100){
+				var index = 'blk';
+				index+=grid[i][count].toString();
+				var area = document.getElementById(index);
+				grid[i][count] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+			count = count - 1;
+			console.log('defend');
+		}
+	}else{
+		console.log('random');
+		random_o();
+	}
+}
+
+function o_win(){
+	/*var area = document.getElementById('blk3');
+	grid[0][2] = 'o';
+	disp();
+	area.innerHTML = "<img src='o.jpg'></img>";*/
+	//horizontal 
+	row1 = grid[0][0] + grid[0][1] + grid[0][2];
+	row2 = grid[1][0] + grid[1][1] + grid[1][2];
+	row3 = grid[2][0] + grid[2][1] + grid[2][2];
+	
+	//vertical
+	col1 = grid[0][0] + grid[1][0] + grid[2][0];
+	col2 = grid[0][1] + grid[1][1] + grid[2][1];
+	col3 = grid[0][2] + grid[1][2] + grid[2][2];
+	
+	//diagonal
+	diag1 = grid[0][0] + grid[1][1] + grid[2][2];
+	diag2 = grid[0][2] + grid[1][1] + grid[2][0];
+	
+	 
+	if(row1==1001 || row1==1002 || row1==1003){ //win row1
+		for(var i=0;i<3;i++){
+			if(grid[0][i] != 500){
+				var index = 'blk';
+				index+=grid[0][i].toString();
+				var area = document.getElementById(index);
+				grid[0][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+		console.log('win move');
+		return 1;
+		 
+	}else if(row2==1004 || row2==1005 || row2==1006){ //win row2
+		for(var i=0;i<3;i++){
+			if(grid[1][i] != 500){
+				var index = 'blk';
+				index+=grid[1][i].toString();
+				var area = document.getElementById(index);
+				grid[1][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		}
+		return 1;
+		 
+	}else if(row3==1007 || row3==1008 || row3==1009){ //win row3
+		for(var i=0;i<3;i++){
+			if(grid[2][i] != 500){
+				var index = 'blk';
+				index+=grid[2][i].toString();
+				var area = document.getElementById(index);
+				grid[2][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		} 
+		return 1;
+	}else if(col1==1001 || col1==1004 || col1==1007){ //win col1
+		for(var i=0;i<3;i++){
+			if(grid[i][0] != 500){
+				var index = 'blk';
+				index+=grid[i][0].toString();
+				var area = document.getElementById(index);
+				grid[i][0] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		} 
+		return 1;
+	}else if(col2==1002 || col2==1005 || col2==1008){ //win col2
+		for(var i=0;i<3;i++){
+			if(grid[i][1] != 500){
+				var index = 'blk';
+				index+=grid[i][1].toString();
+				var area = document.getElementById(index);
+				grid[i][1] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		} 
+		return 1;
+	}else if(col3==1003 || col3==1006 || col3==1009){ //win col3
+		for(var i=0;i<3;i++){
+			if(grid[i][2] != 500){
+				var index = 'blk';
+				index+=grid[i][2].toString();
+				var area = document.getElementById(index);
+				grid[i][2] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		} 
+		return 1;
+	}else if(diag1==1001 || diag1==1005 || diag1==1009){ //win diag1
+		for(var i=0;i<3;i++){
+			if(grid[i][i] != 500){
+				var index = 'blk';
+				index+=grid[i][i].toString();
+				var area = document.getElementById(index);
+				grid[i][i] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+		} 
+		return 1;
+	}else if(diag2==1003 || diag2==1005 || diag2==1007){ //win diag2
+		var count=2;
+		for(var i=0;i<3;i++){
+			if(grid[i][count] != 500){
+				var index = 'blk';
+				index+=grid[i][count].toString();
+				var area = document.getElementById(index);
+				grid[i][count] = 500;
+				disp();
+				area.innerHTML = "<img src='o.jpg'></img>";
+			}
+			count = count - 1;
+		} 
+		return 1;
+	}
+}
+
+function fundamentals(){
+	if(grid[1][1]!=100){ //if x in corner attack center
+		var area = document.getElementById('blk5');
+		grid[1][1] = 500;
+		disp();
+		area.innerHTML = "<img src='o.jpg'></img>";
+		return 1;
+	}
+}
+function trick1(){
+	if(grid[2][0] == 100 && grid[0][1]!=100 && grid[2][2]!=100 && grid[0][0]!=100 && grid[0][2]!=100){
+		var area = document.getElementById('blk2');
+		grid[0][1] = 500;
+		disp();
+		area.innerHTML = "<img src='o.jpg'></img>";
+		return 1;
+	}else if(grid[2][1] == 100){
+		var area = document.getElementById('blk7');
+		grid[2][0] = 500;
+		disp();
+		area.innerHTML = "<img src='o.jpg'></img>";
+		return 1;
+	}else if(grid[1][2] == 100){
+		var area = document.getElementById('blk3');
+		grid[0][2] = 500;
+		disp();
+		area.innerHTML = "<img src='o.jpg'></img>";
+		return 1;
+	}else if(grid[2][0] == 100 && grid[0][2] == 100){
+		var area = document.getElementById('blk2');
+		grid[0][1] = 500;
+		disp();
+		area.innerHTML = "<img src='o.jpg'></img>";
+		return 1;
+	}
+ 
+}
+function play(){
+	
+	move = move+1;
+	console.log(move);
+	
+	if (move == 1){
+		Wasfundamentas_played = fundamentals();
+	}
+	if(move == 2 && Wasfundamentas_played ==1){
+		Wastrick1_played = trick1();
+	}
+	 
+	if(Wasfundamentas_played!=1 || Wastrick1_played!=1 || move>2){
+		if(move ==2 && Wasfundamentas_played !=1 && grid[1][1] == 100 && grid[2][2]==100){
+			var area = document.getElementById('blk3');
+			grid[0][2] = 500;
+			disp();
+			area.innerHTML = "<img src='o.jpg'></img>";
+		}else{
+			var win = wincheck();
+			if(win!=1){
+				var Owin = o_win();
+			}
+			var win = wincheck();
+			if(win!=1 && Owin!=1){
+				defend_x();
+			}
+			if(win!=1 && move==5){
+				var comment = document.getElementById('Comment')
+				comment.innerHTML = "<span id='text_inComment'> Draw!</span><br><button onclick='restart()'>Try Again?</button>"
+			}
+		}
+	}
+}
+function wincheck(){
+	var comment = document.getElementById('Comment')
+	//horizontal 
+	row1 = grid[0][0] + grid[0][1] + grid[0][2];
+	row2 = grid[1][0] + grid[1][1] + grid[1][2];
+	row3 = grid[2][0] + grid[2][1] + grid[2][2];
+	
+	//vertical
+	col1 = grid[0][0] + grid[1][0] + grid[2][0];
+	col2 = grid[0][1] + grid[1][1] + grid[2][1];
+	col3 = grid[0][2] + grid[1][2] + grid[2][2];
+	
+	//diagonal
+	diag1 = grid[0][0] + grid[1][1] + grid[2][2];
+	diag2 = grid[0][2] + grid[1][1] + grid[2][0];
+	
+	
+	if(row1==1500 || row2==1500 || row3==1500 || col1==1500 || col2==1500 || col3==1500 || diag1==1500 || diag2==1500){
+	 
+		comment.innerHTML = "<span id='text_inComment'> O Wins !</span><br><button onclick='restart()'>Try Again?</button>"
+		return 1;
+	}
+	if(row1==300 || row2==300 || row3==300 || col1==300 || col2==300 || col3==300 || diag1==300 || diag2==300){
+ 
+		comment.innerHTML = "<span id='text_inComment'> X Wins !</span><br><button onclick='restart()'>Try Again?</button>"
+		return 1;
+	}
+	 
+	
+}
+function restart(){
+	location.reload();
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
